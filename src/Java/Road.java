@@ -2,9 +2,13 @@ package Java;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+import sun.misc.Sort;
 
 
 public class Road {
@@ -114,15 +118,31 @@ public class Road {
         this.endLocation = endLocation;
     }
     
-    public void getTime(Vehicle vehicle, Point end, Map<Integer, ArrayList<Integer> > allVehicle, int congestion) {
-        double distance = Math.sqrt((Math.pow((this.getStartLocation().x - end.x), 2.0) + Math.pow((this.getStartLocation().x - end.x), 2.0)));
-        
+    public double getTime(Vehicle vehicle, Point end, Map<Integer, ArrayList<Integer> > allVehicle, int congestion) {
+        double distance = Math.sqrt((Math.pow((this.getStartLocation().x - end.x), 2.0) + Math.pow((this.getStartLocation().y - end.y), 2.0)));
+        int before = 0;
         if (this.lanes == 1){
            double time = distance/vehicle.getAvgSpeed();
+           return time;
         }
         else{
+            ArrayList<Double> time_arr = new ArrayList<Double>();
+            Map<Integer, ArrayList<Integer> > temp = this.getVehicle(50, 20, 30, 20, 10, 10, 10);
+            for (Map.Entry entry : temp.entrySet()) {
+                ArrayList<Integer> arr = (ArrayList<Integer>) entry.getValue();
+                for (int i=0; i< arr.size();i++) {
+                    time_arr.add((distance/arr.get(i) * 60) );
+                }
+            }
+            Collections.sort(time_arr);
             
+            for(int i=0; i<time_arr.size();i++){
+                if (distance/vehicle.getAvgSpeed()*60 < time_arr.get(i))
+                    before++;
+            }
+            return ((int)(time_arr.size()-before)/congestion) + distance/vehicle.getAvgSpeed()*60;  
         }
+
     }
      
 }
