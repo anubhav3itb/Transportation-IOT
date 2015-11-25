@@ -80,6 +80,8 @@ public class Road {
         return temp;
     }
     
+    
+    
     public Integer getWays() {
         return ways;
     }
@@ -112,8 +114,15 @@ public class Road {
         this.endLocation = endLocation;
     }
     
-  
-    
-    
+    public void getTime(Vehicle vehicle, Point end, Map<Integer, ArrayList<Integer> > allVehicle, int congestion) {
+        double distance = Math.sqrt((Math.pow((this.getStartLocation().x - end.x), 2.0) + Math.pow((this.getStartLocation().x - end.x), 2.0)));
+        
+        if (this.lanes == 1){
+           double time = distance/vehicle.getAvgSpeed();
+        }
+        else{
+            
+        }
+    }
      
 }
