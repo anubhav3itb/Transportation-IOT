@@ -134,20 +134,23 @@ public class Simulation {
                     		  
                     		  if (JOptionPane.OK_OPTION == 0){
                     			  JPanel p4 = new JPanel();
-                        		  p4.setLayout(new GridLayout(0,2));
+                        		  p4.setLayout(new GridLayout(2,2));
                         		  
-                        		  JTextArea ta = new JTextArea("Time taken to reach from A to B is " + fly.getTime(bike, new Point(xend,yend), temp, 5) + " minutes.", 6, 8);
+                        		  JTextArea ta = new JTextArea("Time taken to reach from A to B is " + fly.getTime(bike, new Point(xend,yend), temp, 5) + " minutes.", 8, 8);
                         		  ta.setLineWrap(true);
                         		  p4.add(new JScrollPane(ta));
+                        		  double distance = Math.sqrt((Math.pow((fly.getStartLocation().x - xend), 2.0) + Math.pow((fly.getStartLocation().y - yend), 2.0)));
+                        		  JTextArea tb = new JTextArea("Time taken without congestion: "+distance/bike.getAvgSpeed()*60 + " minutes.", 6, 8);
+                        		  tb.setLineWrap(true);
+                        		  p4.add(new JScrollPane(tb));
                         		  JOptionPane.showConfirmDialog(null, p4, "Output: ", JOptionPane.OK_CANCEL_OPTION);
                         		  
                     		  }
                     		  //System.out.println("Time taken to reach from A to B is " + fly.getTime(bike, new Point(xend,yend), temp, 5) + " minutes.");
-                        	  
+                    		  
+            		  	}
+                                           
             		  }
-                      
-                      
-        		  }
         		  }
     		  
     	  }
