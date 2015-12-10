@@ -43,22 +43,16 @@ public class Simulation {
         
 	  	JTextField numVehicle = new JTextField(5);
         
-        
         final JSlider slider1 = new JSlider();
         final JSlider slider2 = new JSlider();
         final JSlider slider3 = new JSlider();
         final JSlider slider4 = new JSlider();
         final JSlider slider5 = new JSlider();
         final JSlider slider6 = new JSlider();
-        
-        
-        
-        
-		
-        
+                
         pane.add(new JLabel("Number of Vehicles: "));
   	  	pane.add(numVehicle);
-        
+  	  	
         slider1.setPaintTicks(true);
         slider1.setPaintLabels(true);
         slider1.setMajorTickSpacing(20);
@@ -86,8 +80,7 @@ public class Simulation {
 				// TODO Auto-generated method stub
 				per3v = slider2.getValue();
 				finalValue = (per2v+per3v+per4v+pertruck+perbus+perhv);
-				totalNow.setText(""+finalValue);
-				
+				totalNow.setText(""+finalValue);	
 			}
 		};
 		slider2.addChangeListener(listner2);
@@ -104,7 +97,6 @@ public class Simulation {
 				per4v = slider3.getValue();
 				finalValue = (per2v+per3v+per4v+pertruck+perbus+perhv);
 				totalNow.setText(""+finalValue);
-				
 			}
 		};
 		slider3.addChangeListener(listner3);
@@ -121,7 +113,6 @@ public class Simulation {
 				perbus = slider4.getValue();
 				finalValue = (per2v+per3v+per4v+pertruck+perbus+perhv);
 				totalNow.setText(""+finalValue);
-				
 			}
 		};
 		slider4.addChangeListener(listner4);
@@ -171,12 +162,15 @@ public class Simulation {
         pane.add(slider6);
         pane.add(totalNow);
         
-        JOptionPane.showConfirmDialog(null, p, "Family and first name : ", JOptionPane.OK_CANCEL_OPTION);
+        JOptionPane.showConfirmDialog(null, p, "Road details : ", JOptionPane.OK_CANCEL_OPTION);
         if (JOptionPane.OK_OPTION == 0){
-  		  Flyover fly = new Flyover(new Point(20,30), new Point(30,40), 2, 1);
+  		  Flyover fly = new Flyover(new Point(20,30), new Point(30,40), 2, 2);
+  		  String text90 = numVehicle.getText();
+		  numVeh = Integer.parseInt(text90);
   		  Map<Integer, ArrayList<Integer> > temp = fly.getVehicle(numVeh, per2v, per3v, per4v, perbus, pertruck, perhv);
+  		  System.out.println(numVeh + ","+per4v);
+  		  System.out.println(temp);
   		  
-  		    
       		  if (JOptionPane.OK_OPTION == 0){
       			  JPanel p2 = new JPanel();
           		  p2.setLayout(new GridLayout(0,2));
@@ -221,10 +215,10 @@ public class Simulation {
                   		  String text8 = VehSpeed.getText();
                   		  vehspeed = Integer.parseInt(text8);
                   		  
-                  		  String text9 = numVehicle.getText();
+                  		  String text9 = endX.getText();
                   		  xend = Integer.parseInt(text9);
                   		  
-                  		  String text10 = numVehicle.getText();
+                  		  String text10 = endY.getText();
                   		  yend = Integer.parseInt(text10);
                   		  
                   		  Vehicle bike = new Vehicle(vehwheel, vehspeed);
@@ -233,8 +227,8 @@ public class Simulation {
                   			  JPanel p4 = new JPanel();
                       		  p4.setLayout(new GridLayout(2,2));
                       		  
-                      		  JTextArea ta = new JTextArea("Time taken to reach from A to B is " + fly.getTime(bike, new Point(xend,yend), temp, 5) + " minutes.", 8, 8);
-                      		  ta.setLineWrap(true);
+                      		JTextArea ta = new JTextArea("Time taken to reach from A to B is " + fly.getTime(bike, new Point(xend,yend), temp, 5) + " minutes.", 6, 8);
+                      		ta.setLineWrap(true);
                       		  p4.add(new JScrollPane(ta));
                       		  double distance = Math.sqrt((Math.pow((fly.getStartLocation().x - xend), 2.0) + Math.pow((fly.getStartLocation().y - yend), 2.0)));
                       		  JTextArea tb = new JTextArea("Time taken without congestion: "+distance/bike.getAvgSpeed()*60 + " minutes.", 6, 8);
@@ -243,15 +237,10 @@ public class Simulation {
                       		  JOptionPane.showConfirmDialog(null, p4, "Output: ", JOptionPane.OK_CANCEL_OPTION);
                       		  
                   		  }
-                  		  //System.out.println("Time taken to reach from A to B is " + fly.getTime(bike, new Point(xend,yend), temp, 5) + " minutes.");
-                  		  
-          		  	}
-                                         
+                  		  //System.out.println("Time taken to reach from A to B is " + fly.getTime(bike, new Point(xend,yend), temp, 5) + " minutes.");	  
+          		  	}                          
           		  }
-      		  }
-  		  
+      		  }	  
   	  }
-
 	}
-	
 }

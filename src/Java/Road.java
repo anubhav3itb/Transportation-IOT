@@ -119,6 +119,7 @@ public class Road {
     }
     
     public double getTime(Vehicle vehicle, Point end, Map<Integer, ArrayList<Integer> > allVehicle, int congestion) {
+    	System.out.println(allVehicle);
         double distance = Math.sqrt((Math.pow((this.getStartLocation().x - end.x), 2.0) + Math.pow((this.getStartLocation().y - end.y), 2.0)));
         int before = 0;
         if (this.lanes == 1){
@@ -126,8 +127,8 @@ public class Road {
            return time;
         }
         else{
+        	System.out.println("Entering else");
             ArrayList<Double> time_arr = new ArrayList<Double>();
-            //Map<Integer, ArrayList<Integer> > temp = this.getVehicle(50, 20, 30, 20, 10, 10, 10);
             for (Map.Entry entry : allVehicle.entrySet()) {
                 ArrayList<Integer> arr = (ArrayList<Integer>) entry.getValue();
                 for (int i=0; i< arr.size();i++) {
@@ -140,7 +141,9 @@ public class Road {
                 if (distance/vehicle.getAvgSpeed()*60 < time_arr.get(i))
                     before++;
             }
+            System.out.println(before);
             System.out.println("Time taken without congestion: "+distance/vehicle.getAvgSpeed()*60 + " minutes");
+            System.out.println(((int)(time_arr.size()-before)/congestion) + distance/vehicle.getAvgSpeed()*60);
             return ((int)(time_arr.size()-before)/congestion) + distance/vehicle.getAvgSpeed()*60;  
         }
 
