@@ -1,30 +1,38 @@
 package Java;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class ParkingCentre {
-    Point startLocation;
-    Point endLocation;
+    Point location;
     int maxCapacity;
     int occupancy;
-    
-    public ParkingCentre(Point startLocation, Point endLocation, int occupancy) {
-        this.startLocation = startLocation;
-        this.endLocation = endLocation;
+    int intakeRate;
+
+    public int getIntakeRate() {
+        return intakeRate;
+    }
+    public void setIntakeRate(int intakeRate) {
+        this.intakeRate = intakeRate;
+    }
+    public ParkingCentre(Point location, int occupancy, int maxCapacity, int intakeRate) {
+        this.location = location;
+        this.maxCapacity = maxCapacity;
         this.occupancy = occupancy;
+        this.intakeRate = intakeRate;
     }
-    public Point getStartLocation() {
-        return startLocation;
+    
+    public Point getLocation() {
+        return location;
     }
-    public void setStartLocation(Point startLocation) {
-        this.startLocation = startLocation;
+
+    public void setLocation(Point location) {
+        this.location = location;
     }
-    public Point getEndLocation() {
-        return endLocation;
-    }
-    public void setEndLocation(Point endLocation) {
-        this.endLocation = endLocation;
-    }
+
     public int getMaxCapacity() {
         return maxCapacity;
     }

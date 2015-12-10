@@ -32,7 +32,7 @@ public class Road {
         this.lanes = lanes;
         this.ways = ways;
     }
-    public Map<Integer, ArrayList<Integer> > getVehicle(int num, int per2v, int per3v, int per4v, int perBus, int perTruck, int perHv) {
+    public Map<Integer, ArrayList<Integer>> getVehicle(int num, int per2v, int per3v, int per4v, int perBus, int perTruck, int perHv) {
         Map<Integer, ArrayList<Integer>> temp = new HashMap<Integer, ArrayList<Integer>>();
         int num2v = (int) (num*per2v)/100;
         int num3v = (int) (num*per3v)/100;
@@ -119,7 +119,7 @@ public class Road {
     }
     
     public double getTime(Vehicle vehicle, Point end, Map<Integer, ArrayList<Integer> > allVehicle, int congestion) {
-    	System.out.println(allVehicle);
+//    	System.out.println(allVehicle);
         double distance = Math.sqrt((Math.pow((this.getStartLocation().x - end.x), 2.0) + Math.pow((this.getStartLocation().y - end.y), 2.0)));
         int before = 0;
         if (this.lanes == 1){
@@ -127,7 +127,6 @@ public class Road {
            return time;
         }
         else{
-        	System.out.println("Entering else");
             ArrayList<Double> time_arr = new ArrayList<Double>();
             for (Map.Entry entry : allVehicle.entrySet()) {
                 ArrayList<Integer> arr = (ArrayList<Integer>) entry.getValue();
@@ -141,12 +140,31 @@ public class Road {
                 if (distance/vehicle.getAvgSpeed()*60 < time_arr.get(i))
                     before++;
             }
-            System.out.println(before);
-            System.out.println("Time taken without congestion: "+distance/vehicle.getAvgSpeed()*60 + " minutes");
-            System.out.println(((int)(time_arr.size()-before)/congestion) + distance/vehicle.getAvgSpeed()*60);
+//            System.out.println(before);
+//            System.out.println("Time taken without congestion: "+distance/vehicle.getAvgSpeed()*60 + " minutes");
+//            System.out.println(((int)(time_arr.size()-before)/congestion) + distance/vehicle.getAvgSpeed()*60);
             return ((int)(time_arr.size()-before)/congestion) + distance/vehicle.getAvgSpeed()*60;  
         }
 
     }
+    public void getParking(Vehicle vehicle, Map<Integer, ArrayList<Integer> > allVehicle, int congestion
+            , ArrayList<ParkingCentre> pc) {
+       Map<ParkingCentre, Double> map = new HashMap<ParkingCentre, Double>();
+       for (ParkingCentre temp : pc) {
+           double time = this.getTime(vehicle, temp.location, allVehicle, congestion);
+           temp.occupancy += temp.intakeRate*time;
+           map.put(temp, time);
+       }
+       map =MapUtil.sortByValue(map);
+       for (Map.Entry<ParkingCentre, Double> entry : map.entrySet()) {
+           if (entry.getKey().occupancy < entry.getKey().maxCapacity) {
+               System.out.println(entry.getKey() + "," + entry.getValue());
+               break;
+           }
+       }
+       System.out.println(map);
+    }
+    
+    
      
 }
