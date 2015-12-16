@@ -147,7 +147,7 @@ public class Road {
         }
 
     }
-    public void getParking(Vehicle vehicle, Map<Integer, ArrayList<Integer> > allVehicle, int congestion
+    public ArrayList<String> getParking(Vehicle vehicle, Map<Integer, ArrayList<Integer> > allVehicle, int congestion
             , ArrayList<ParkingCentre> pc) {
        Map<ParkingCentre, Double> map = new HashMap<ParkingCentre, Double>();
        for (ParkingCentre temp : pc) {
@@ -156,13 +156,22 @@ public class Road {
            map.put(temp, time);
        }
        map =MapUtil.sortByValue(map);
+       ArrayList<String> newArr = new ArrayList<String>();
+       Map<ParkingCentre, Double> newMap =  new HashMap<ParkingCentre, Double>();
        for (Map.Entry<ParkingCentre, Double> entry : map.entrySet()) {
            if (entry.getKey().occupancy < entry.getKey().maxCapacity) {
-               System.out.println(entry.getKey() + "," + entry.getValue());
-               break;
+               
+               
+               newArr.add(Integer.toString(entry.getKey().location.x));
+               newArr.add(Integer.toString(entry.getKey().location.y));
+               newArr.add(Double.toString(entry.getValue()));
+               System.out.println(newArr);          
+               return newArr; 
            }
+           
        }
-       System.out.println(map);
+       return null;
+      
     }
     
     

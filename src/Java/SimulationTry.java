@@ -6,7 +6,9 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Map;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,10 +35,16 @@ public class SimulationTry {
 	static int xend;
 	static int yend;
 	static int finalValue;
+	static int lotX;
+	static int lotY;
+	static int capacity;
+	static int intake_rate;
+	static int ocuupancy;
+	
 	static JTextField totalNow = new JTextField(5);
 	
 	public static void main(String[] args) {
-	    /*        JPanel p = new JPanel();
+	           JPanel p = new JPanel();
         p.setLayout(new GridLayout(0,2));
         JPanel pane = new JPanel(new GridLayout(0,1));
         p.add(pane);
@@ -65,7 +73,7 @@ public class SimulationTry {
         slider1.setMinorTickSpacing(5);
         ChangeListener listner1 = new ChangeListener() {
             
-            @Override
+           
             public void stateChanged(ChangeEvent e) {
                 // TODO Auto-generated method stub
                 per2v = slider1.getValue();
@@ -81,7 +89,7 @@ public class SimulationTry {
         slider2.setMinorTickSpacing(5);
         ChangeListener listner2 = new ChangeListener() {
             
-            @Override
+           
             public void stateChanged(ChangeEvent e) {
                 // TODO Auto-generated method stub
                 per3v = slider2.getValue();
@@ -98,7 +106,7 @@ public class SimulationTry {
         slider3.setMinorTickSpacing(5);
         ChangeListener listner3 = new ChangeListener() {
             
-            @Override
+           
             public void stateChanged(ChangeEvent e) {
                 // TODO Auto-generated method stub
                 per4v = slider3.getValue();
@@ -115,7 +123,7 @@ public class SimulationTry {
         slider4.setMinorTickSpacing(5);
         ChangeListener listner4 = new ChangeListener() {
             
-            @Override
+            
             public void stateChanged(ChangeEvent e) {
                 // TODO Auto-generated method stub
                 perbus = slider4.getValue();
@@ -132,7 +140,7 @@ public class SimulationTry {
         slider5.setMinorTickSpacing(5);
         ChangeListener listner5 = new ChangeListener() {
             
-            @Override
+            
             public void stateChanged(ChangeEvent e) {
                 // TODO Auto-generated method stub
                 pertruck = slider5.getValue();
@@ -149,7 +157,7 @@ public class SimulationTry {
         slider6.setMinorTickSpacing(5);
         ChangeListener listner6 = new ChangeListener() {
             
-            @Override
+            
             public void stateChanged(ChangeEvent e) {
                 // TODO Auto-generated method stub
                 perhv = slider6.getValue();
@@ -162,18 +170,25 @@ public class SimulationTry {
         
         totalNow.setText(""+finalValue);
         
+        pane.add(new JLabel("Percentage of 2 Wheelers: "));
         pane.add(slider1);
-        
+        pane.add(new JLabel("Percentage of 3 Wheelers: "));
         pane.add(slider2);
+        pane.add(new JLabel("Percentage of 4 Wheelers: "));
         pane.add(slider3);
+        pane.add(new JLabel("Percentage of Buses: "));
         pane.add(slider4);
+        pane.add(new JLabel("Percentage of Trucks: "));
         pane.add(slider5);
+        pane.add(new JLabel("Percentage of HV: "));
         pane.add(slider6);
         pane.add(totalNow);
         
-        JOptionPane.showConfirmDialog(null, p, "Family and first name : ", JOptionPane.OK_CANCEL_OPTION);
+        JOptionPane.showConfirmDialog(null, p, "Transportation IOT : ", JOptionPane.OK_CANCEL_OPTION);
         if (JOptionPane.OK_OPTION == 0){
           Flyover fly = new Flyover(new Point(20,30), new Point(30,40), 2, 1);
+          String text22 = numVehicle.getText();
+          numVeh = Integer.parseInt(text22);
           Map<Integer, ArrayList<Integer> > temp = fly.getVehicle(numVeh, per2v, per3v, per4v, perbus, pertruck, perhv);
           
             
@@ -184,72 +199,192 @@ public class SimulationTry {
                   JCheckBox check = new JCheckBox("Get time for a vehicle given end point.");
                   p2.add(check);
                   
+                  JCheckBox check2 = new JCheckBox("Get parking slot given location");
+                  p2.add(check2);
+                  
                   JOptionPane.showConfirmDialog(null, p2, "Select Visualizations : ", JOptionPane.OK_CANCEL_OPTION);
                   
                   if (JOptionPane.OK_OPTION == 0){
-                    JTextField Vehtype = new JTextField(5);
-                    JTextField VehSpeed = new JTextField(5);
-                    JTextField endX = new JTextField(5);
-                    JTextField endY = new JTextField(5);
-                      
-                      
-                      JPanel p1 = new JPanel();
-                      p1.setLayout(new GridLayout(0,2));
-                      JPanel pane3 = new JPanel(new GridLayout(0,1));
-                      p1.add(pane3);
-                        
-                      JPanel pane4 = new JPanel(new GridLayout(0,2));
-                      p1.add(pane4);
-                        
-                      p1.add(new JLabel("Number of Wheels: "));
-                      p1.add(Vehtype);
-                      p1.add(new JLabel("Speed of Vehicle: "));
-                      p1.add(VehSpeed);
-                      p1.add(new JLabel("X for ending point: "));
-                      p1.add(endX);
-                      p1.add(new JLabel("Y for ending point: "));
-                      p1.add(endY);
-                      
-                      
-                      JOptionPane.showConfirmDialog(null, p1, "Create Vehicle : ", JOptionPane.OK_CANCEL_OPTION);
-                      
-                      if (JOptionPane.OK_OPTION == 0){
-                          
-                          String text7 = Vehtype.getText();
-                          vehwheel = Integer.parseInt(text7);
-                          
-                          String text8 = VehSpeed.getText();
-                          vehspeed = Integer.parseInt(text8);
-                          
-                          String text9 = numVehicle.getText();
-                          xend = Integer.parseInt(text9);
-                          
-                          String text10 = numVehicle.getText();
-                          yend = Integer.parseInt(text10);
-                          
-                          Vehicle bike = new Vehicle(vehwheel, vehspeed);
-                          
-                          if (JOptionPane.OK_OPTION == 0){
-                              JPanel p4 = new JPanel();
-                              p4.setLayout(new GridLayout(2,2));
+                      if (check.isSelected()){
+                          JTextField Vehtype = new JTextField(5);
+                          JTextField VehSpeed = new JTextField(5);
+                          JTextField endX = new JTextField(5);
+                          JTextField endY = new JTextField(5);
+                            
+                            
+                            JPanel p1 = new JPanel();
+                            p1.setLayout(new GridLayout(0,2));
+                            JPanel pane3 = new JPanel(new GridLayout(0,1));
+                            p1.add(pane3);
                               
-                              JTextArea ta = new JTextArea("Time taken to reach from A to B is " + fly.getTime(bike, new Point(xend,yend), temp, 5) + " minutes.", 8, 8);
-                              ta.setLineWrap(true);
-                              p4.add(new JScrollPane(ta));
-                              double distance = Math.sqrt((Math.pow((fly.getStartLocation().x - xend), 2.0) + Math.pow((fly.getStartLocation().y - yend), 2.0)));
-                              JTextArea tb = new JTextArea("Time taken without congestion: "+distance/bike.getAvgSpeed()*60 + " minutes.", 6, 8);
-                              tb.setLineWrap(true);
-                              p4.add(new JScrollPane(tb));
-                              JOptionPane.showConfirmDialog(null, p4, "Output: ", JOptionPane.OK_CANCEL_OPTION);
+                            JPanel pane4 = new JPanel(new GridLayout(0,2));
+                            p1.add(pane4);
                               
-                          }
-                          //System.out.println("Time taken to reach from A to B is " + fly.getTime(bike, new Point(xend,yend), temp, 5) + " minutes.");
+                            p1.add(new JLabel("Number of Wheels: "));
+                            p1.add(Vehtype);
+                            p1.add(new JLabel("Speed of Vehicle: "));
+                            p1.add(VehSpeed);
+                            p1.add(new JLabel("X for ending point: "));
+                            p1.add(endX);
+                            p1.add(new JLabel("Y for ending point: "));
+                            p1.add(endY);
+                            
+                            
+                            JOptionPane.showConfirmDialog(null, p1, "Create Vehicle : ", JOptionPane.OK_CANCEL_OPTION);
+                            
+                            if (JOptionPane.OK_OPTION == 0){
+                                
+                                String text7 = Vehtype.getText();
+                                vehwheel = Integer.parseInt(text7);
+                                
+                                String text8 = VehSpeed.getText();
+                                vehspeed = Integer.parseInt(text8);
+                                
+                                String text9 = endX.getText();
+                                xend = Integer.parseInt(text9);
+                                
+                                String text10 = endY.getText();
+                                yend = Integer.parseInt(text10);
+                                
+                                Vehicle bike = new Vehicle(vehwheel, vehspeed);
+                                
+                                if (JOptionPane.OK_OPTION == 0){
+                                    JPanel p4 = new JPanel();
+                                    p4.setLayout(new GridLayout(2,2));
+                                    
+                                    JTextArea ta = new JTextArea("Time taken to reach from A to B is " + fly.getTime(bike, new Point(xend,yend), temp, 5) + " minutes.", 8, 8);
+                                    ta.setLineWrap(true);
+                                    p4.add(new JScrollPane(ta));
+                                    double distance = Math.sqrt((Math.pow((fly.getStartLocation().x - xend), 2.0) + Math.pow((fly.getStartLocation().y - yend), 2.0)));
+                                    JTextArea tb = new JTextArea("Time taken without congestion: "+distance/bike.getAvgSpeed()*60 + " minutes.", 6, 8);
+                                    tb.setLineWrap(true);
+                                    p4.add(new JScrollPane(tb));
+                                    JOptionPane.showConfirmDialog(null, p4, "Output: ", JOptionPane.OK_CANCEL_OPTION);
+                                    
+                                }
+                      }
+                    
+                        
                           
                     }
+                      else if (check2.isSelected()) {
+                          JTextField Vehtype = new JTextField(5);
+                          JTextField VehSpeed = new JTextField(5);
+                          JTextField endX = new JTextField(5);
+                          JTextField endY = new JTextField(5);
+                            
+                            
+                            JPanel p1 = new JPanel();
+                            p1.setLayout(new GridLayout(0,2));
+                            JPanel pane3 = new JPanel(new GridLayout(0,1));
+                            p1.add(pane3);
+                              
+                            JPanel pane4 = new JPanel(new GridLayout(0,2));
+                            p1.add(pane4);
+                              
+                            p1.add(new JLabel("Number of Wheels: "));
+                            p1.add(Vehtype);
+                            p1.add(new JLabel("Speed of Vehicle: "));
+                            p1.add(VehSpeed);
+                            p1.add(new JLabel("X for ending point: "));
+                            p1.add(endX);
+                            p1.add(new JLabel("Y for ending point: "));
+                            p1.add(endY);
+                            
+                            
+                            JOptionPane.showConfirmDialog(null, p1, "Create Vehicle : ", JOptionPane.OK_CANCEL_OPTION);
+                            if (JOptionPane.OK_OPTION == 0){
+                                
+                                String text7 = Vehtype.getText();
+                                vehwheel = Integer.parseInt(text7);
+                                
+                                String text8 = VehSpeed.getText();
+                                vehspeed = Integer.parseInt(text8);
+                                
+                                String text9 = endX.getText();
+                                xend = Integer.parseInt(text9);
+                                
+                                String text10 = endY.getText();
+                                yend = Integer.parseInt(text10);
+                                
+                                Vehicle bike = new Vehicle(vehwheel, vehspeed);
+                                
+                                if (JOptionPane.OK_OPTION == 0){
+                                    JPanel panel8 = new JPanel();
+                                    Map<Integer, ArrayList<Integer> > temps = fly.getVehicle(50, 20, 30, 20, 10, 10, 10);
+                                    DefaultComboBoxModel model = new DefaultComboBoxModel();
+                                    model.addElement("1");
+                                    model.addElement("2");
+                                    model.addElement("3");
+                                    JComboBox comboBox = new JComboBox(model);
+                                    panel8.add(comboBox);
+                                    
+                                    
+                                    JOptionPane.showConfirmDialog(null, panel8, "Select Number of parking lots : ", JOptionPane.OK_CANCEL_OPTION);
+                                    if (JOptionPane.OK_OPTION == 0){
+                                        int value = Integer.parseInt((String) comboBox.getSelectedItem());
+                                        ArrayList<ParkingCentre> al = new ArrayList<ParkingCentre>();
+                                        for (int i=0; i<value;i++){
+                                            JPanel panel9 = new JPanel();
+                                            JTextField lotx = new JTextField(5);
+                                            JTextField loty = new JTextField(5);
+                                            JTextField occu = new JTextField(5);
+                                            JTextField intake = new JTextField(5);
+                                            JTextField capa = new JTextField(5);
+                                            
+                                            panel9.add(new JLabel("Parking Slot X "));
+                                            panel9.add(lotx);
+                                            panel9.add(new JLabel("Parking Slot Y "));
+                                            panel9.add(loty);
+                                            panel9.add(new JLabel("Occupancy "));
+                                            panel9.add(occu);
+                                            panel9.add(new JLabel("Intake Rate "));
+                                            panel9.add(intake);
+                                            panel9.add(new JLabel("Capacity "));
+                                            panel9.add(capa);
+                                           JOptionPane.showConfirmDialog(null, panel9, "Enter Params: ", JOptionPane.OK_CANCEL_OPTION);
+                                            if (JOptionPane.OK_OPTION == 0 && i < value){
+                                                String text11 = lotx.getText();
+                                                lotX = Integer.parseInt(text11);
+                                                
+                                                String text12 = loty.getText();
+                                                lotY = Integer.parseInt(text12);
+                                                
+                                                String text13 = capa.getText();
+                                                capacity = Integer.parseInt(text13);
+                                                
+                                                String text14 = intake.getText();
+                                                intake_rate = Integer.parseInt(text14);
+                                                
+                                                String text15 = occu.getText();
+                                                ocuupancy = Integer.parseInt(text15);
+                                                ParkingCentre pc = new ParkingCentre(new Point(lotX, lotY), ocuupancy,capacity, intake_rate);
+                                                al.add(pc);
+                                                
+                                                
+                                            }
+                                            
+                                            
+                                        }
+                                         
+                                        ArrayList<String> newArr = fly.getParking(bike, temps, 5, al);
+                                        String Out = "Nearest parking lot is at "+ newArr.get(0) + ", "+newArr.get(1) + "and time is: "+ newArr.get(2);
+                                        JPanel j10 = new JPanel();
+                                        JTextArea jts = new JTextArea(Out);
+                                       j10.add(jts);
+                                       JOptionPane.showConfirmDialog(null, j10, "Output: ", JOptionPane.OK_CANCEL_OPTION);
+                                       
+                                    }
+                                        
+                                    
+                                    
+                                }
+                      }
                                          
                   }
               }
+              }
           
-      }*/
+      }
 	}
 }
